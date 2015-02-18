@@ -1,0 +1,6 @@
+include AUTHORS
+include LICENSE
+include *.rst
+include tox.ini
+# recursive-include tests *
+recursive-include example *

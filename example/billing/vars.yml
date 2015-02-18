@@ -1,0 +1,12 @@
+---
+name: John Smith
+company: Fancy Website Ltd
+tax_id: SOME_FANCY_GOV_NUMBER
+street: Somestreet, 19
+zip: 93481
+town: Faraway
+phone: +49 00 000 000 00
+email: nospam@example.com
+bank: Somebank
+iban: DELONGDIGITCODE
+bic: MORECODE

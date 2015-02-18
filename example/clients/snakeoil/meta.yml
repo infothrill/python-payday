@@ -1,0 +1,18 @@
+---
+name: SnakeOil Ltd.
+address: &address |
+  Example st. 66
+  1990 SomeTown
+phone:  +15005550000
+email: &email
+  contact@example.com
+billing:
+  attn: Carol Crossbow
+  attn_gender: female
+  addressee: Pointy-Haired Boss
+  addressee_gender: male
+  email:
+    - carol.crossbow@example.com
+    - backoffice@example.com
+  address: *address
+url: http://example.com

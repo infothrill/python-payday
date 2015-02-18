@@ -1,0 +1,246 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+@page {
+	size: a4;
+	orientation: portrait;
+	margin: 2cm;
+}
+
+body {
+	max-width: 88%;
+	margin: auto;
+	font-size: 11pt;
+}
+
+table {
+	font-size: 11pt;
+}
+
+.header {
+	font-weight: bold;
+	/* border: 1px solid black; */
+	text-align: right;
+}
+
+.logo {
+    float: right;
+    margin-left: 2em;
+}
+.header-title {
+	font-size: 17pt;
+}
+
+.header-tagline {
+	font-size: 13pt;
+}
+
+.client-address {
+	float: left;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	clear: both;
+}
+
+.contactinfo {
+	clear: both;
+}
+
+.contactinfo-content {
+	color: grey;
+	text-align: center;
+	font-size: 9pt;
+}
+
+div.billsummarybox {
+	float: right;
+	border: solid 1px black;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.billsummary {
+	text-align: right;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 88%; /* same as body max-width */
+	/* border: 1px solid black; */
+}
+
+.footercontent {
+	color: grey;
+	font-size: 10pt;
+	text-align: center;
+}
+
+.greeting {
+	margin-top: 2em;
+}
+
+.billitem-table {
+	border-spacing: 0px;
+	width: 100%;
+}
+
+.right {
+	text-align: right;
+}
+
+.left {
+	text-align: left;
+}
+
+.border-top {
+	border-top: 1px solid black;
+}
+
+.border-bottom {
+	border-bottom: 1px solid black;
+}
+
+.billitem-highlight {
+	font-weight: bold;
+}
+
+.doubleUnderline {
+	text-decoration: underline;
+	border-bottom: 1px solid #000;
+}
+</style>
+</head>
+<body>
+	<div class="header">
+	<span class="logo">{% assets "logo.png" -%} <img
+            src="{{ ASSET_URL }}" width="60"> {%- endassets %}</span>
+		<span class="header-title">{{name}}</span><br /> <span
+			class="header-tagline">{{company}}</span> 
+	</div>
+
+	<div class="client-address">
+		{{client.billing.attn}}<br /> {{client.name}}<br />
+		<span style="white-space:pre-line">{{client.billing.address}}</span>
+	</div>
+
+	<div class="billsummarybox">
+		<table class="billsummary">
+			<tr>
+				<td>Rechnungsjahr:</td>
+				<td>{{invoice.billing_year}}</td>
+			</tr>
+			<tr>
+				<td>Rechnungsnummer:</td>
+				<td>{{invoice.number}} {{invoice["id"]}}</td>
+			</tr>
+			<tr>
+				<td>Rechnungsdatum:</td>
+				<td>{{invoice.date}}</td>
+			</tr>
+			<tr>
+				<td>Steuernummer:</td>
+				<td>{{tax_id}}</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="contactinfo">
+		<div class="contactinfo-content">{{name}} &bull; {{street}}
+			&bull; {{zip}} {{town}} &bull; Tel: {{phone}} &bull; Email: {{email}}</div>
+	</div>
+
+	{% if client.billing.addressee %}
+	    {% if client.billing.addressee_gender == "female" %}
+		<p class="greeting">Sehr geehrte Frau {{client.billing.addressee}},</p>
+	    {% else %}
+	    <p class="greeting">Sehr geehrter Herr {{client.billing.addressee}},</p>
+	    {% endif %}
+	{% else %}
+	    {% if client.billing.attn_gender == "female" %}
+		<p class="greeting">Sehr geehrte Frau {{client.billing.attn}},</p>
+	    {% else %}
+	    <p class="greeting">Sehr geehrter Herr {{client.billing.attn}},</p>
+	    {% endif %}
+	{% endif %}
+    {% if 'period' in invoice.keys() %}
+    <p>F&uumlr folgende in Ihrem Auftrag ausgef&uuml;hrte Leistungen
+        in der Periode vom {{invoice.period.start}} bis {{invoice.period.end}} erlaube ich mir Ihnen zu berechnen:</p>
+    {% else %}
+	<p>F&uumlr folgende in Ihrem Auftrag ausgef&uuml;hrte Leistungen
+		erlaube ich mir Ihnen zu berechnen:</p>
+    {% endif %}
+
+	<table class="billitem-table">
+		<tr>
+			<th class="border-top border-bottom left">Bezeichnung</th>
+            {% if 'hours' in invoice.objects[0].keys() %}
+            <th class="border-top border-bottom right">Stunden</th>
+            {% endif %}
+            {% if 'rate' in invoice.objects[0].keys() %}
+            <th class="border-top border-bottom right">Satz</th>
+            {% endif %}
+			<th class="border-top border-bottom right">Betrag</th>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td></td>
+		</tr>
+		{% for billitem in invoice.objects %}
+		<tr class="billitem">
+			<td class="left">{{billitem.description}}</td>
+            {% if 'hours' in billitem.keys() %}
+            <td class="right">{{billitem.hours|round(2)}}</td>
+            {% endif %}
+            {% if 'rate' in billitem.keys() %}
+            <td class="right">{{billitem.rate}}</td>
+            {% endif %}
+			<td class="right">{{billitem.amount|round(2)}} &euro;</td>
+		</tr>
+		{% endfor %}
+		<tr>
+			<td>&nbsp;</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="billitem-highlight border-top">Summe
+				Nettobetr&auml;ge</td>
+            {% if 'hours' in invoice.objects[0].keys() %}<td class="border-top"></td>{% endif %}
+            {% if 'rate' in invoice.objects[0].keys() %}<td class="border-top"></td>{% endif %}
+			<td class="billitem-highlight border-top right">{{invoice.sum|round(2)}}
+				&euro;</td>
+		</tr>
+		<tr>
+			<td class="left billitem-highlight">Umsatzsteuerbetrag
+				{{invoice.vat}} %</td>
+            {% if 'hours' in invoice.objects[0].keys() %}<td></td>{% endif %}
+            {% if 'rate' in invoice.objects[0].keys() %}<td></td>{% endif %}
+			<td class="right billitem-highlight"><span style="text-decoration:underline">{{invoice.tax|round(2)}} &euro;</span></td>
+		</tr>
+		<tr>
+			<td class="left billitem-highlight">Rechnungsbetrag</td>
+            {% if 'hours' in invoice.objects[0].keys() %}<td></td>{% endif %}
+            {% if 'rate' in invoice.objects[0].keys() %}<td></td>{% endif %}
+			<td class="right billitem-highlight"><span
+				class="doubleUnderline">{{invoice.totalsum|round(2)}} &euro;</span></td>
+		</tr>
+	</table>
+
+	<p>Das Leistungsdatum entspricht dem Rechnungsdatum.</p>
+
+	<p>IBAN: {{iban}} / BIC: {{bic}}</p>
+
+	<p>Bitte begleichen Sie den Rechnungsbetrag innerhalb von 35 Tagen
+		nach Erhalt durch &Uuml;berweisung auf das genannte Konto.
+	<p>
+	<p>
+		Freundliche Gr&uuml;sse, <br /> <br /> {{name}}
+	</p>
+
+	<div class="footer">
+		<div class="footercontent">{{name}} &bull; {{bank}} &bull; IBAN
+			{{iban}} &bull; BIC {{bic}}</div>
+	</div>
+</body>
+</html>

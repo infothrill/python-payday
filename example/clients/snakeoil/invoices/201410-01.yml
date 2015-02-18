@@ -1,0 +1,13 @@
+---
+id: 201408-01
+date: 31.10.2014
+billing_year: 2014
+vat: 16
+objects:
+  - description: Webdesign example.com
+    amount: 2313
+  - description: Web consulting
+    amount: 1055
+claimed: false
+paid: false
+paid_date: null

@@ -1,0 +1,8 @@
+.project
+env
+dist
+build
+*.egg-info
+.tox
+*.egg
+.vagrant/
