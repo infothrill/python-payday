@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-'''
-Created on Sep 30, 2014
 
-@author: pk
-'''
+"""Rendering related code."""
 
 import os
 import subprocess

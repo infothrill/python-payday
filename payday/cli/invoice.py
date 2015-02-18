@@ -27,7 +27,7 @@ def render_invoice(path, invoice_id, out_fname):
     data['client'] = client.client
     data['invoice'] = invoice.invoice
 
-    from payday.calc import calc_std_bill
+    from ..calc import calc_std_bill
     # TODO: cross check this calculation against the stored bill data
     netsum, nettax, totalsum = calc_std_bill([o['amount'] for o in data['invoice']['objects']], data['invoice']['vat'])
     data['invoice']['sum'] = netsum

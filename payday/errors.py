@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
-'''
-Created on Oct 3, 2014
-
-@author: pk
-'''
+"""Payday exceptions."""
 
 
 class PaydayError(Exception):

@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 
-'''
-Created on Oct 3, 2014
-
-@author: pk
-'''
+"""Some more generic utility methods."""
 
 import io
 import yaml
 
-from payday import errors
+from . import errors
 
 
 def parse_yaml_from_file(path):

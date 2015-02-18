@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 
-'''
-Created on Oct 3, 2014
-
-@author: pk
-'''
+"""Invoice code."""
 
 import os
 
-from payday import utils
-from payday import errors
+from . import utils
+from . import errors
 
 
 class Invoice(object):

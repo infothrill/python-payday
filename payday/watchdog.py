@@ -17,6 +17,6 @@ class TemplateModifiedHandler(FileSystemEventHandler):
     def on_modified(self, event):
         # print event.src_path
         if event.src_path == os.path.join(self.template_path, self.template_filename):
-            print "template was modified"
+            print("template was modified")
             self.render_method(
                 self.template_filename, self.template_data)

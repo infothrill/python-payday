@@ -6,7 +6,7 @@
 import sys
 import logging
 
-from payday import __version__
+from .. import __version__
 
 VALID_ACTIONS = set(("add", "list"))
 

@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
-'''
-Created on Oct 2, 2014
-
-@author: pk
-'''
+"""Client code."""
 
 import os
 import logging
@@ -12,9 +8,9 @@ import fnmatch
 import re
 from itertools import chain
 
-from payday import utils
-from payday import errors
-from payday.invoice import Invoice
+from . import utils
+from . import errors
+from .invoice import Invoice
 
 logger = logging.getLogger(__name__)
 
