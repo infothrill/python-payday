@@ -44,7 +44,7 @@ Filesystem layout:
 
 Problematic features
 --------------------
-Not sure how to generate multi page layouts via HTML.
+Not sure how to generate multi page layouts via HTML. Maybe http://www.w3.org/TR/CSS2/page.html helps?
 
 Installation
 ------------
