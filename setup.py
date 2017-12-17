@@ -31,7 +31,7 @@ with open(os.path.join(BASEDIR, 'CHANGELOG.rst'), 'r') as f:
 
 setup(
     name='payday',
-    packages=find_packages('.'),
+    packages=find_packages(),
     version=VERSION,
     description='Radically simple invoice generator',
     author=AUTHOR,
@@ -54,5 +54,6 @@ setup(
     """),
     data_files=[],
     test_suite='payday.tests',
-    tests_require='pep8>=1.3',
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest>=3.0.7', 'pep8>=1.3'],
 )

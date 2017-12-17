@@ -3,7 +3,7 @@
 """Rendering related code."""
 
 import os
-import subprocess
+import subprocess  # nosec
 import tempfile
 
 from jinja2 import FileSystemLoader
@@ -25,8 +25,10 @@ def get_jinja_renderer(template_path):
     """
     # template_path
     asset_path = os.path.join(template_path, "assets")
-    assert os.path.isdir(template_path)
-    assert os.path.isdir(asset_path)
+    if not os.path.isdir(template_path):
+        raise ValueError("%s must be a directory" % template_path)
+    if not os.path.isdir(asset_path):
+        raise ValueError("%s must be a directory" % asset_path)
 
     assets_env = AssetsEnvironment(
         asset_path, "file://" + os.path.abspath(asset_path))
@@ -34,6 +36,7 @@ def get_jinja_renderer(template_path):
                                    AssetsExtension],
                                    loader=FileSystemLoader(template_path),
                                    auto_reload=True,
+                                   autoescape=True,
                                    # undefined=StrictUndefined
                                    )
     jinja2_env.assets_environment = assets_env
@@ -82,7 +85,7 @@ def convert_html_to_pdf_wkhtmltopdf(html_filename, pdf_filename):
     else:
         cmd = []
     cmd.extend([p, html_filename, pdf_filename])
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)  # nosec
     out, err = proc.communicate()
     if proc.returncode != 0:
         print("{} exited with a non zero exit code:".format(" ".join(cmd)))
@@ -95,7 +98,7 @@ def convert_html_to_pdf_phantomjs(url, pdf_filename, page_size="A4"):
     # TODO: use contrib/ directory for this
     "phantomjs rasterize.js http://minitv.local:9091/transmission/web/ out.pdf A4"
     cmd = ["/usr/local/bin/phantomjs", "rasterize.js", url, pdf_filename, page_size]
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)  # nosec
     out, err = proc.communicate()
     print(out, err)
     return

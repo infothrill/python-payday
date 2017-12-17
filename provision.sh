@@ -6,4 +6,3 @@ sudo apt-get install -y python-setuptools python-pip python-virtualenv python-de
 virtualenv $HOME/env
 source $HOME/env/bin/activate
 cd /vagrant/ && python setup.py develop
-
